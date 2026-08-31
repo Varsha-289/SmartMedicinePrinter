@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SMARTMED Blister Production Simulator</title>
+
+    <link
+        rel="stylesheet"
+        href="/frontend/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="topbar">
+
+    <div>
+
+        <div class="brand">
+            SMARTMED
+        </div>
+
+        <div class="subtitle">
+            BLISTER PRODUCTION SIMULATOR
+        </div>
+
+    </div>
+
+
+    <div class="system-status">
+
+        <span class="status-dot"></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+</header>
+
+
+
+<!-- ==================================================
+     MAIN MACHINE
+================================================== -->
+
+<main class="machine-layout">
+
+
+    <!-- ==============================================
+         LEFT CONTROL PANEL
+    =============================================== -->
+
+    <aside class="control-panel">
+
+        <div class="section-title">
+            BLISTER PARAMETERS
+        </div>
+
+
+        <!-- ROWS -->
+
+        <div class="control-group">
+
+            <label for="rows">
+                ROWS
+            </label>
+
+            <input
+                id="rows"
+                type="number"
+                min="1"
+                max="10"
+                value="2"
+            >
+
+        </div>
+
+
+        <!-- COLUMNS -->
+
+        <div class="control-group">
+
+            <label for="columns">
+                COLUMNS
+            </label>
+
+            <input
+                id="columns"
+                type="number"
+                min="1"
+                max="12"
+                value="5"
+            >
+
+        </div>
+
+
+        <div class="parameter-divider"></div>
+
+
+        <!-- BLISTER WIDTH -->
+
+        <div class="control-group">
+
+            <label for="blisterWidth">
+                FULL BLISTER WIDTH
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="blisterWidth"
+                    type="number"
+                    min="1"
+                    step="0.1"
+                    value="100"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BLISTER HEIGHT -->
+
+        <div class="control-group">
+
+            <label for="blisterHeight">
+                FULL BLISTER HEIGHT
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="blisterHeight"
+                    type="number"
+                    min="1"
+                    step="0.1"
+                    value="50"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- POCKET WIDTH -->
+
+        <div class="control-group">
+
+            <label for="pocketWidth">
+                POCKET WIDTH
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="pocketWidth"
+                    type="number"
+                    min="0.1"
+                    step="0.1"
+                    value="15"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- POCKET HEIGHT -->
+
+        <div class="control-group">
+
+            <label for="pocketHeight">
+                POCKET HEIGHT
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="pocketHeight"
+                    type="number"
+                    min="0.1"
+                    step="0.1"
+                    value="20"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- HORIZONTAL GAP -->
+
+        <div class="control-group">
+
+            <label for="horizontalGap">
+                HORIZONTAL GAP
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="horizontalGap"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value="3"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- VERTICAL GAP -->
+
+        <div class="control-group">
+
+            <label for="verticalGap">
+                VERTICAL GAP
+            </label>
+
+            <div class="input-unit">
+
+                <input
+                    id="verticalGap"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value="4"
+                >
+
+                <span>mm</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="parameter-divider"></div>
+
+
+        <!-- EXPIRY -->
+
+        <div class="control-group">
+            <div class="control-group">
+    <label for="tabletShape">TABLET SHAPE</label>
+
+    <select id="tabletShape">
+        <option value="round">ROUND TABLET</option>
+<option value="oval">OVAL TABLET</option>
+    </select>
+</div>
+
+            <label for="expiryDate">
+                EXPIRY DATE
+            </label>
+
+            <input
+                id="expiryDate"
+                type="date"
+                value="2028-05-31"
+            >
+
+        </div>
+
+
+        <!-- GENERATE -->
+
+ <div class="generation-actions">
+
+    <button
+        id="generateButton"
+        class="generate-button"
+        type="button"
+    >
+        GENERATE BLISTER
+    </button>
+
+    <button
+        id="resetButton"
+        class="reset-button"
+        type="button"
+    >
+        RESET
+    </button>
+
+</div>
+
+
+        <div
+            id="parameterStatus"
+            class="parameter-status"
+        >
+
+            READY
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ==============================================
+         MACHINE VIEW
+    =============================================== -->
+
+    <section class="machine-panel">
+
+
+        <div class="machine-header">
+
+            <div>
+
+                <div class="section-title">
+                    LIVE PRODUCTION VIEW
+                </div>
+
+                <div class="machine-subtitle">
+                    SIMULATION MODE
+                </div>
+
+            </div>
+
+
+            <div
+                id="machineState"
+                class="machine-state"
+            >
+
+                IDLE
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             MACHINE
+        =========================================== -->
+
+        <div class="machine">
+
+            <!-- MACHINE TOP -->
+
+            <div class="machine-top">
+
+                <div class="machine-light green"></div>
+
+                <div class="machine-light"></div>
+
+                <div class="machine-light"></div>
+
+                <span>
+                    LASER PRINT / CUT MODULE
+                </span>
+
+            </div>
+
+
+            <!-- WORK AREA -->
+
+            <div
+                id="workArea"
+                class="work-area"
+            >
+
+                <div
+                    id="emptyMachine"
+                    class="empty-machine"
+                >
+
+                    <div class="machine-icon">
+                        ◇
+                    </div>
+
+                    <strong>
+                        NO BLISTER LOADED
+                    </strong>
+
+                    <span>
+                        Configure the blister
+                        and press GENERATE BLISTER
+                    </span>
+
+                </div>
+
+
+                <!-- BLISTER SVG GOES HERE -->
+
+                <svg
+                    id="blisterSvg"
+                    class="blister-svg hidden"
+                    viewBox="0 0 800 450"
+                    preserveAspectRatio="xMidYMid meet"
+                >
+
+                    <g id="blisterSheet">
+
+                    </g>
+
+                    <g id="laserAssembly">
+
+                        <rect
+                            id="laserHead"
+                            x="0"
+                            y="35"
+                            width="42"
+                            height="22"
+                            rx="4"
+                        ></rect>
+
+                        <line
+                            id="laserBeam"
+                            x1="21"
+                            y1="57"
+                            x2="21"
+                            y2="400"
+                        ></line>
+
+                    </g>
+
+                    <g id="cutAssembly">
+
+                        <line
+                            id="cutLine"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="0"
+                        ></line>
+
+                    </g>
+
+                </svg>
+
+            </div>
+
+
+            <!-- MACHINE BOTTOM -->
+
+            <div class="machine-bottom">
+
+                <div class="machine-rail">
+
+                    <div
+                        id="laserProgress"
+                        class="laser-progress"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             PROCESS
+        =========================================== -->
+
+        <div class="process-panel">
+
+            <div class="process-step active">
+
+                <span class="process-number">
+                    01
+                </span>
+
+                <span>
+                    GENERATE
+                </span>
+
+            </div>
+
+
+            <div class="process-connector"></div>
+
+
+            <div
+                id="processPrint"
+                class="process-step"
+            >
+
+                <span class="process-number">
+                    02
+                </span>
+
+                <span>
+                    LASER PRINT
+                </span>
+
+            </div>
+
+
+            <div class="process-connector"></div>
+
+
+            <div
+                id="processCut"
+                class="process-step"
+            >
+
+                <span class="process-number">
+                    03
+                </span>
+
+                <span>
+                    CUT
+                </span>
+
+            </div>
+
+
+            <div class="process-connector"></div>
+
+
+            <div
+                id="processDose"
+                class="process-step"
+            >
+
+                <span class="process-number">
+                    04
+                </span>
+
+                <span>
+                    INDIVIDUAL DOSES
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- ==================================================
+     PRINT CONTROL
+================================================== -->
+
+<section class="production-controls">
+
+    <div class="production-card">
+
+        <div class="production-title">
+            LASER PRINTING
+        </div>
+
+        <div
+            id="printPreview"
+            class="print-display"
+        >
+
+            EXP: --
+
+        </div>
+
+        <button
+            id="printButton"
+            type="button"
+            disabled
+        >
+
+            START LASER PRINT
+
+        </button>
+
+        <div
+            id="printStatus"
+            class="production-status"
+        >
+
+            WAITING FOR BLISTER
+
+        </div>
+
+    </div>
+
+
+
+    <div class="production-card">
+
+        <div class="production-title">
+            CUTTING
+        </div>
+
+        <div
+            id="cutDisplay"
+            class="cut-display"
+        >
+
+            CUTTER READY
+
+        </div>
+
+        <button
+            id="cutButton"
+            type="button"
+            disabled
+        >
+
+            START CUTTING
+
+        </button>
+
+        <div
+            id="cutStatus"
+            class="production-status"
+        >
+
+            WAITING FOR PRINT
+
+        </div>
+
+    </div>
+
+
+
+    <div class="production-card">
+
+        <div class="production-title">
+            EXCEL PRODUCTION DATA
+        </div>
+
+        <div class="excel-display">
+
+            <strong>
+                .XLSX
+            </strong>
+
+            <span>
+                Complete blister geometry,
+                pocket positions and
+                expiry information.
+            </span>
+
+        </div>
+
+        <button
+            id="excelButton"
+            type="button"
+            disabled
+        >
+
+            EXPORT EXCEL
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     INDIVIDUAL DOSES
+================================================== -->
+
+<section class="dose-section">
+
+    <div class="dose-header">
+
+        <div>
+
+            <div class="section-title">
+                INDIVIDUAL DOSES
+            </div>
+
+            <div class="machine-subtitle">
+                SEPARATED AFTER CUTTING
+            </div>
+
+        </div>
+
+
+        <div
+            id="doseCount"
+            class="dose-count"
+        >
+
+            0 DOSES
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="doseGrid"
+        class="dose-grid"
+    >
+
+        <div class="empty-dose">
+
+            Individual doses will appear
+            after the cutting simulation.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<footer>
+
+    SMARTMED BLISTER PRODUCTION SIMULATOR
+    <span>•</span>
+    SIMULATION ONLY
+
+</footer>
+
+
+
+<script src="/frontend/app.js"></script>
+
+</body>
+
+</html>

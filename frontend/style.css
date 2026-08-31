@@ -1,0 +1,1947 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.hidden {
+    display: none !important;
+}
+:root {
+    --bg: #05090d;
+    --panel: #0d151c;
+    --panel2: #111d25;
+    --border: #263943;
+    --text: #e9f1f4;
+    --muted: #718591;
+    --green: #31e18a;
+    --green-dark: #0b3020;
+    --cyan: #42c9ff;
+    --orange: #ffb454;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            #172b36,
+            #05090d 58%
+        );
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.topbar {
+    min-height: 76px;
+    padding: 17px 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid var(--border);
+
+    background: rgba(7, 13, 18, 0.96);
+}
+
+.brand {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 5px;
+}
+
+.subtitle {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.system-status {
+    color: var(--green);
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    display: inline-block;
+
+    width: 8px;
+    height: 8px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow: 0 0 10px var(--green);
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.machine-layout {
+    width: min(1400px, calc(100% - 40px));
+
+    margin: 22px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        270px
+        minmax(0, 1fr);
+
+    gap: 18px;
+}
+
+
+/* =========================================
+   CONTROL PANEL
+========================================= */
+
+.control-panel {
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            150deg,
+            var(--panel2),
+            var(--panel)
+        );
+}
+
+.section-title {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.control-group {
+    margin-top: 13px;
+}
+
+.control-group label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+.control-group input {
+    width: 100%;
+
+    min-height: 36px;
+
+    padding: 8px 9px;
+
+    border: 1px solid #314650;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    background: #070e13;
+
+    color: var(--text);
+
+    font-size: 11px;
+}
+
+.control-group input:focus {
+    border-color: var(--green);
+}
+
+.input-unit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.input-unit input {
+    min-width: 0;
+}
+
+.input-unit span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.parameter-divider {
+    height: 1px;
+
+    margin: 17px 0;
+
+    background: var(--border);
+}
+
+.generate-button {
+    width: 100%;
+
+    min-height: 42px;
+
+    margin-top: 18px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: var(--green);
+
+    color: #04110a;
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+.generate-button:hover {
+    filter: brightness(1.08);
+}
+
+.parameter-status {
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: var(--green);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   MACHINE
+========================================= */
+
+.machine-panel {
+    min-width: 0;
+
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            150deg,
+            #101a22,
+            #0a1117
+        );
+}
+
+.machine-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+}
+
+.machine-subtitle {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+.machine-state {
+    padding: 7px 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+.machine-state.active {
+    color: var(--green);
+
+    border-color:
+        rgba(49, 225, 138, 0.45);
+
+    background: var(--green-dark);
+
+    box-shadow:
+        0 0 14px
+        rgba(49, 225, 138, 0.08);
+}
+
+
+/* =========================================
+   MACHINE BODY
+========================================= */
+
+.machine {
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid #354953;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #17242d,
+            #0b1319
+        );
+
+    box-shadow:
+        inset 0 0 40px
+        rgba(0, 0, 0, 0.45);
+}
+
+.machine-top {
+    height: 42px;
+
+    padding: 0 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border-bottom: 1px solid #30424c;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1d2b34,
+            #111b22
+        );
+
+    color: #91a2ac;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+}
+
+.machine-light {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #44545c;
+}
+
+.machine-light.green {
+    background: var(--green);
+
+    box-shadow:
+        0 0 9px var(--green);
+}
+
+
+/* =========================================
+   WORK AREA
+========================================= */
+
+.work-area {
+    position: relative;
+
+    min-height: 480px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #1a2b34 0%,
+            #091016 70%
+        );
+}
+
+.work-area::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.15;
+
+    background-image:
+        linear-gradient(
+            #536873 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            #536873 1px,
+            transparent 1px
+        );
+
+    background-size: 30px 30px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   EMPTY MACHINE
+========================================= */
+
+.empty-machine {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 9px;
+
+    text-align: center;
+
+    color: var(--muted);
+}
+
+.machine-icon {
+    font-size: 48px;
+    color: #4e626d;
+}
+
+.empty-machine strong {
+    color: #aab8bf;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+.empty-machine span {
+    max-width: 250px;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   BLISTER SVG
+========================================= */
+
+.blister-svg {
+    position: relative;
+
+    z-index: 3;
+
+    width: 94%;
+
+    height: 94%;
+
+    overflow: visible;
+}
+
+.blister-svg.hidden {
+    display: none;
+}
+
+
+/* =========================================
+   REALISTIC FOIL
+========================================= */
+
+#blisterSheet .sheet {
+    fill: url("#realSheetGradient");
+
+    stroke: #c5d0d4;
+
+    stroke-width: 2.5;
+
+    filter:
+        drop-shadow(
+            0 12px 18px
+            rgba(0, 0, 0, 0.48)
+        );
+}
+
+#blisterSheet .pocket-shadow {
+    fill: #172126;
+
+    opacity: 0.55;
+}
+
+
+/* =========================================
+   TRANSPARENT RAISED POCKET
+========================================= */
+
+#blisterSheet .pocket {
+    fill:
+        url("#realPocketGradient");
+
+    stroke:
+        #aebbc0;
+
+    stroke-width:
+        2;
+
+    opacity:
+        0.92;
+
+    filter:
+        drop-shadow(
+            0 3px 3px
+            rgba(0, 0, 0, 0.32)
+        );
+
+    transition:
+        filter 0.25s,
+        stroke 0.25s,
+        opacity 0.25s;
+}
+
+#blisterSheet .pocket.printed {
+    stroke:
+        var(--green);
+
+    stroke-width:
+        2.8;
+
+    filter:
+        drop-shadow(
+            0 0 7px
+            rgba(49, 225, 138, 0.35)
+        );
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+#blisterSheet .tablet {
+    fill:
+        url("#tabletGradient");
+
+    stroke:
+        #827d6d;
+
+    stroke-width:
+        1.2;
+
+    filter:
+        drop-shadow(
+            0 4px 4px
+            rgba(0, 0, 0, 0.48)
+        );
+
+    transition:
+        transform 0.4s,
+        opacity 0.4s;
+}
+
+#blisterSheet .tablet-highlight {
+    fill:
+        #ffffff;
+
+    opacity:
+        0.38;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================
+   EXPIRY MARKING
+========================================= */
+
+#blisterSheet .expiry {
+    fill: #000000 !important;
+    color: #000000 !important;
+
+    opacity: 0;
+
+    font-family: monospace;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    text-anchor: middle;
+
+    letter-spacing: 0.4px;
+
+    filter: none;
+
+    transition: opacity 0.25s ease;
+}
+
+#blisterSheet .expiry.visible {
+    opacity: 1 !important;
+    fill: #000000 !important;
+    color: #000000 !important;
+    filter: none;
+}
+
+
+/* =========================================
+   LASER
+========================================= */
+
+#laserHead {
+    fill:
+        #1b2328;
+
+    stroke:
+        var(--green);
+
+    stroke-width:
+        2;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(49, 225, 138, 0.45)
+        );
+}
+
+#laserBeam {
+    stroke:
+        var(--green);
+
+    stroke-width:
+        2;
+
+    opacity:
+        0;
+
+    filter:
+        drop-shadow(
+            0 0 7px
+            var(--green)
+        );
+}
+
+.laser-active #laserBeam {
+    opacity:
+        0.95;
+
+    animation:
+        laserPulse
+        0.22s
+        infinite
+        alternate;
+}
+
+@keyframes laserPulse {
+
+    from {
+        opacity: 0.35;
+        stroke-width: 1.5;
+    }
+
+    to {
+        opacity: 1;
+        stroke-width: 3;
+    }
+
+}
+
+
+/* =========================================
+   CUTTING LASER
+========================================= */
+
+#cutLine {
+    stroke:
+        var(--orange);
+
+    stroke-width:
+        3;
+
+    stroke-linecap:
+        round;
+
+    stroke-dasharray:
+        7 6;
+
+    opacity:
+        0;
+
+    filter:
+        drop-shadow(
+            0 0 7px
+            rgba(255, 180, 84, 0.9)
+        );
+}
+
+.cutting #cutLine {
+    opacity:
+        1;
+
+    animation:
+        cuttingBeam
+        0.25s
+        linear
+        infinite;
+}
+
+@keyframes cuttingBeam {
+
+    from {
+        stroke-dashoffset:
+            0;
+    }
+
+    to {
+        stroke-dashoffset:
+            -13;
+    }
+
+}
+
+
+/* =========================================
+   SEPARATION
+========================================= */
+
+#blisterSheet .pocket.separated {
+    animation:
+        doseSeparate
+        0.35s
+        ease
+        forwards;
+}
+
+@keyframes doseSeparate {
+
+    0% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0.92;
+    }
+
+}
+
+
+/* =========================================
+   MACHINE RAIL
+========================================= */
+
+.machine-bottom {
+    height: 34px;
+
+    padding:
+        11px 20px;
+
+    border-top:
+        1px solid #30414a;
+
+    background:
+        #0a1116;
+}
+
+.machine-rail {
+    height: 4px;
+
+    overflow: hidden;
+
+    border-radius: 5px;
+
+    background:
+        #263640;
+}
+
+.laser-progress {
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 8px
+        var(--green);
+
+    transition:
+        width 0.15s linear;
+}
+
+
+/* =========================================
+   PROCESS BAR
+========================================= */
+
+.process-panel {
+    margin-top: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+}
+
+.process-step {
+    min-width: 105px;
+
+    padding:
+        10px 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        6px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        bold;
+
+    letter-spacing:
+        0.5px;
+
+    transition:
+        all 0.25s;
+}
+
+.process-step.active {
+    color:
+        var(--green);
+
+    border-color:
+        rgba(49, 225, 138, 0.45);
+
+    background:
+        var(--green-dark);
+
+    box-shadow:
+        0 0 12px
+        rgba(49, 225, 138, 0.08);
+}
+
+.process-step.complete {
+    color:
+        var(--cyan);
+
+    border-color:
+        rgba(66, 201, 255, 0.35);
+}
+
+.process-number {
+    font-family:
+        monospace;
+
+    opacity:
+        0.7;
+}
+
+.process-connector {
+    width:
+        28px;
+
+    height:
+        1px;
+
+    background:
+        var(--border);
+}
+
+
+/* =========================================
+   PRODUCTION CARDS
+========================================= */
+
+.production-controls {
+    width:
+        min(
+            1400px,
+            calc(100% - 40px)
+        );
+
+    margin:
+        0 auto 18px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        18px;
+}
+
+.production-card {
+    padding:
+        17px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    background:
+        var(--panel);
+}
+
+.production-title {
+    margin-bottom:
+        12px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+    font-weight:
+        bold;
+
+    letter-spacing:
+        1.2px;
+}
+
+.print-display {
+    min-height:
+        55px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px dashed #7b898f;
+
+    border-radius:
+        5px;
+
+    background:
+        #edf0f1;
+
+    color:
+        #111;
+
+    font-family:
+        monospace;
+
+    font-size:
+        17px;
+
+    font-weight:
+        bold;
+}
+
+.cut-display,
+.excel-display {
+    min-height:
+        55px;
+
+    padding:
+        10px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        5px;
+
+    background:
+        #091118;
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+    text-align:
+        center;
+}
+
+.excel-display strong {
+    color:
+        var(--green);
+
+    font-family:
+        monospace;
+
+    font-size:
+        17px;
+}
+
+.excel-display span {
+    max-width:
+        220px;
+
+    line-height:
+        1.4;
+}
+
+.production-card button {
+    width:
+        100%;
+
+    min-height:
+        38px;
+
+    margin-top:
+        11px;
+
+    border:
+        0;
+
+    border-radius:
+        5px;
+
+    background:
+        #223540;
+
+    color:
+        var(--text);
+
+    font-size:
+        8px;
+
+    font-weight:
+        bold;
+
+    letter-spacing:
+        0.8px;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 0.2s;
+}
+
+.production-card button:not(:disabled):hover {
+    background:
+        #2e4755;
+}
+
+.production-card button:disabled {
+    opacity:
+        0.35;
+
+    cursor:
+        not-allowed;
+}
+
+.production-status {
+    margin-top:
+        8px;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        0.7px;
+}
+
+
+/* =========================================
+   DOSES
+========================================= */
+
+.dose-section {
+    width:
+        min(
+            1400px,
+            calc(100% - 40px)
+        );
+
+    margin:
+        0 auto 25px;
+
+    padding:
+        18px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        10px;
+
+    background:
+        var(--panel);
+}
+
+.dose-header {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom:
+        15px;
+}
+
+.dose-count {
+    color:
+        var(--green);
+
+    font-size:
+        9px;
+
+    font-weight:
+        bold;
+}
+
+.dose-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(145px, 1fr)
+        );
+
+    gap:
+        11px;
+}
+
+.empty-dose {
+    grid-column:
+        1 / -1;
+
+    padding:
+        25px;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+}
+
+.individual-dose {
+    position:
+        relative;
+
+    padding:
+        14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        8px;
+
+    background:
+        #091219;
+
+    overflow:
+        hidden;
+}
+
+.individual-dose::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        0;
+
+    width:
+        100%;
+
+    height:
+        2px;
+
+    background:
+        var(--green);
+}
+
+.individual-dose h3 {
+    margin-bottom:
+        9px;
+
+    font-family:
+        monospace;
+
+    font-size:
+        10px;
+}
+
+.individual-dose p {
+    margin-top:
+        5px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        8px;
+}
+
+.individual-dose .dose-expiry {
+    margin-top:
+        10px;
+
+    color:
+        var(--green);
+
+    font-family:
+        monospace;
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding:
+        18px;
+
+    text-align:
+        center;
+
+    color:
+        #52636e;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        1px;
+}
+
+footer span {
+    margin:
+        0 5px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .machine-layout {
+        grid-template-columns:
+            1fr;
+    }
+
+    .control-panel {
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap:
+            10px;
+    }
+
+    .control-panel .section-title,
+    .parameter-divider,
+    .generate-button,
+    .parameter-status {
+        grid-column:
+            1 / -1;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .topbar {
+        padding:
+            16px;
+
+        align-items:
+            flex-start;
+
+        gap:
+            12px;
+    }
+
+    .machine-layout,
+    .production-controls,
+    .dose-section {
+        width:
+            calc(100% - 20px);
+    }
+
+    .production-controls {
+        grid-template-columns:
+            1fr;
+    }
+
+    .control-panel {
+        grid-template-columns:
+            1fr;
+    }
+
+    .control-panel .section-title,
+    .parameter-divider,
+    .generate-button,
+    .parameter-status {
+        grid-column:
+            auto;
+    }
+
+    .work-area {
+        min-height:
+            350px;
+    }
+
+    .process-panel {
+        flex-wrap:
+            wrap;
+    }
+
+    .process-connector {
+        display:
+            none;
+    }
+
+}
+
+/* ==================================================
+   REALISTIC INDIVIDUAL BLISTER DOSES
+================================================== */
+
+.dose-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(190px, 1fr)
+        );
+
+    gap: 18px;
+}
+
+
+/* -----------------------------------------------
+   INDIVIDUAL DOSE CARD
+------------------------------------------------ */
+
+.individual-dose {
+
+    position: relative;
+
+    padding: 12px;
+
+    border:
+        1px solid #263943;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #101b22,
+            #071016
+        );
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.28);
+
+}
+
+
+.individual-dose::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 2px;
+
+    background:
+        #31e18a;
+
+    box-shadow:
+        0 0 8px
+        rgba(49, 225, 138, 0.45);
+
+}
+
+
+/* -----------------------------------------------
+   SINGLE BLISTER
+------------------------------------------------ */
+
+.single-blister {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 145px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #cbd5d8 0%,
+            #89979d 55%,
+            #536269 100%
+        );
+
+    box-shadow:
+        inset 0 2px 8px
+        rgba(255, 255, 255, 0.45),
+
+        inset 0 -8px 15px
+        rgba(0, 0, 0, 0.25),
+
+        0 5px 12px
+        rgba(0, 0, 0, 0.4);
+
+}
+
+
+/* -----------------------------------------------
+   FOIL BACKING
+------------------------------------------------ */
+
+.single-foil {
+
+    position: relative;
+
+    width: 88%;
+
+    height: 82%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 48%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f7f7,
+            #aab6ba 38%,
+            #dce2e4 60%,
+            #7d8b91
+        );
+
+    box-shadow:
+        inset 4px 4px 9px
+        rgba(255, 255, 255, 0.55),
+
+        inset -5px -5px 10px
+        rgba(0, 0, 0, 0.3);
+}
+
+
+/* -----------------------------------------------
+   RAISED POCKET
+------------------------------------------------ */
+
+.single-pocket {
+
+    position: relative;
+
+    width: 74%;
+
+    height: 74%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            ellipse at 30% 25%,
+            rgba(255, 255, 255, 0.95),
+            rgba(220, 229, 232, 0.82) 38%,
+            rgba(125, 142, 149, 0.85) 75%,
+            rgba(68, 82, 89, 0.95)
+        );
+
+    border:
+        2px solid
+        rgba(245, 250, 251, 0.72);
+
+    box-shadow:
+
+        inset 5px 5px 10px
+        rgba(255, 255, 255, 0.45),
+
+        inset -7px -7px 12px
+        rgba(0, 0, 0, 0.3),
+
+        0 5px 8px
+        rgba(0, 0, 0, 0.3);
+
+}
+
+
+/* -----------------------------------------------
+   POCKET SHINE
+------------------------------------------------ */
+
+.single-pocket-shine {
+
+    position: absolute;
+
+    top: 12%;
+
+    left: 20%;
+
+    width: 38%;
+
+    height: 20%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.55);
+
+    transform:
+        rotate(-18deg);
+
+    filter:
+        blur(2px);
+
+}
+
+
+/* -----------------------------------------------
+   TABLET
+------------------------------------------------ */
+
+.single-tablet {
+
+    position: relative;
+
+    width: 42%;
+
+    height: 34%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            ellipse at 30% 25%,
+            #fffef5 0%,
+            #eee9d5 42%,
+            #c5bea7 75%,
+            #8d8775 100%
+        );
+
+    border:
+        1px solid
+        #817b6b;
+
+    box-shadow:
+
+        inset 2px 2px 5px
+        rgba(255, 255, 255, 0.8),
+
+        0 5px 7px
+        rgba(0, 0, 0, 0.45);
+
+}
+
+
+/* -----------------------------------------------
+   TABLET HIGHLIGHT
+------------------------------------------------ */
+
+.tablet-shine {
+
+    position: absolute;
+
+    top: 13%;
+
+    left: 17%;
+
+    width: 38%;
+
+    height: 25%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.65);
+
+    filter:
+        blur(1px);
+
+}
+
+
+/* -----------------------------------------------
+   BLACK EXPIRY PRINT
+------------------------------------------------ */
+
+.single-expiry {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 10%;
+
+    transform:
+        translateX(-50%);
+
+    white-space: nowrap;
+
+    color:
+        #000000;
+
+    font-family:
+        monospace;
+
+    font-size:
+        7px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        0.4px;
+
+    text-shadow:
+        none;
+
+}
+
+
+/* -----------------------------------------------
+   CUT EDGE
+------------------------------------------------ */
+
+.single-dose-edge {
+
+    position: absolute;
+
+    inset: 5px;
+
+    border:
+        1px dashed
+        rgba(255, 255, 255, 0.32);
+
+    border-radius:
+        8px;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* -----------------------------------------------
+   INFORMATION UNDER BLISTER
+------------------------------------------------ */
+
+.dose-info {
+
+    padding:
+        10px 4px 2px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        4px;
+
+}
+
+
+.dose-info strong {
+
+    color:
+        #e9f1f4;
+
+    font-family:
+        monospace;
+
+    font-size:
+        10px;
+
+    letter-spacing:
+        0.8px;
+
+}
+
+
+.dose-info span {
+
+    color:
+        #718591;
+
+    font-size:
+        8px;
+
+}
+
+
+.dose-info b {
+
+    margin-top:
+        4px;
+
+    color:
+        #31e18a;
+
+    font-family:
+        monospace;
+
+    font-size:
+        9px;
+
+}
+
+
+/* -----------------------------------------------
+   LITTLE REALISM ANIMATION
+------------------------------------------------ */
+
+.individual-dose:hover
+.single-pocket {
+
+    transform:
+        scale(1.025);
+
+    transition:
+        transform 0.25s ease;
+
+}
+
+
+.individual-dose:hover
+.single-blister {
+
+    box-shadow:
+
+        inset 0 2px 8px
+        rgba(255, 255, 255, 0.5),
+
+        inset 0 -8px 15px
+        rgba(0, 0, 0, 0.25),
+
+        0 8px 18px
+        rgba(0, 0, 0, 0.45);
+
+}
+/* ==================================================
+   INDIVIDUAL DOSE - REALISTIC BLISTER
+   ================================================== */
+
+.individual-dose-real {
+    position: relative;
+    width: 100%;
+    min-height: 205px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.individual-dose-svg {
+    width: 100%;
+    max-width: 280px;
+    height: 205px;
+    display: block;
+    overflow: visible;
+}
+
+.individual-dose-real .single-expiry {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   RESET BUTTON
+   ================================================== */
+
+.generation-actions {
+    display: grid;
+    grid-template-columns: 1fr 110px;
+    gap: 10px;
+    width: 100%;
+}
+
+.reset-button {
+    min-height: 44px;
+
+    border: 1px solid #7d8b91;
+
+    border-radius: 6px;
+
+    background: linear-gradient(
+        180deg,
+        #edf2f4 0%,
+        #c7d0d4 100%
+    );
+
+    color: #233139;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.85);
+}
+
+.reset-button:hover {
+    filter: brightness(1.05);
+}
+
+.reset-button:active {
+    transform: translateY(1px);
+}

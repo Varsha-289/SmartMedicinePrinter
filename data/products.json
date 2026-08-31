@@ -1,0 +1,14 @@
+{
+    "PARA650": {
+        "name": "Paracetamol 650 mg",
+        "expiry_date": "2028-05-31"
+    },
+    "AMOX500": {
+        "name": "Amoxicillin 500 mg",
+        "expiry_date": "2028-07-09"
+    },
+    "IBU400": {
+        "name": "Ibuprofen 400 mg",
+        "expiry_date": "2029-01-15"
+    }
+}
