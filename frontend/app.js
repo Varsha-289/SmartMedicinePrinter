@@ -880,36 +880,64 @@ function renderRealisticBlister(data) {
         ) / 2;
 
 
+    const tabletShape =
+        data.tablet_shape ||
+        document.getElementById("tabletShape").value ||
+        "round";
+
+
     // ----------------------------------------------
     // FOIL SHEET
     // ----------------------------------------------
 
-    const sheet =
-        svgElement(
-            "rect",
+    const sheetX = startX - 32;
+    const sheetY = startY - 32;
+    const sheetWidth = totalWidth + 64;
+    const sheetHeight = totalHeight + 64;
+
+    let sheet;
+
+    if (tabletShape === "rod") {
+
+        // ROD: draw the complete blister as a true capsule.
+        const r = Math.min(
+            sheetHeight / 2,
+            sheetWidth / 2
+        );
+
+        sheet = svgElement(
+            "path",
             {
-
-                class:
-                    "sheet",
-
-                x:
-                    startX - 32,
-
-                y:
-                    startY - 32,
-
-                width:
-                    totalWidth + 64,
-
-                height:
-                    totalHeight + 64,
-
-                rx:
-                    18
-
+                class: "sheet",
+                d: `
+                    M ${sheetX + r} ${sheetY}
+                    H ${sheetX + sheetWidth - r}
+                    A ${r} ${r} 0 0 1 ${sheetX + sheetWidth} ${sheetY + r}
+                    V ${sheetY + sheetHeight - r}
+                    A ${r} ${r} 0 0 1 ${sheetX + sheetWidth - r} ${sheetY + sheetHeight}
+                    H ${sheetX + r}
+                    A ${r} ${r} 0 0 1 ${sheetX} ${sheetY + sheetHeight - r}
+                    V ${sheetY + r}
+                    A ${r} ${r} 0 0 1 ${sheetX + r} ${sheetY}
+                    Z
+                `
             }
         );
 
+    } else {
+
+        sheet = svgElement(
+            "rect",
+            {
+                class: "sheet",
+                x: sheetX,
+                y: sheetY,
+                width: sheetWidth,
+                height: sheetHeight,
+                rx: 18
+            }
+        );
+    }
 
     blisterSheet.appendChild(
         sheet
@@ -920,41 +948,59 @@ function renderRealisticBlister(data) {
     // FOIL HIGHLIGHT
     // ----------------------------------------------
 
-    const foilHighlight =
-        svgElement(
-            "rect",
+    const highlightX = startX - 20;
+    const highlightY = startY - 20;
+    const highlightWidth = totalWidth + 40;
+    const highlightHeight = totalHeight + 40;
+
+    let foilHighlight;
+
+    if (tabletShape === "rod") {
+
+        const r = Math.min(
+            highlightHeight / 2,
+            highlightWidth / 2
+        );
+
+        foilHighlight = svgElement(
+            "path",
             {
-
-                x:
-                    startX - 20,
-
-                y:
-                    startY - 20,
-
-                width:
-                    totalWidth + 40,
-
-                height:
-                    totalHeight + 40,
-
-                rx:
-                    14,
-
-                fill:
-                    "none",
-
-                stroke:
-                    "#ffffff",
-
-                "stroke-opacity":
-                    "0.3",
-
-                "stroke-width":
-                    "2"
-
+                d: `
+                    M ${highlightX + r} ${highlightY}
+                    H ${highlightX + highlightWidth - r}
+                    A ${r} ${r} 0 0 1 ${highlightX + highlightWidth} ${highlightY + r}
+                    V ${highlightY + highlightHeight - r}
+                    A ${r} ${r} 0 0 1 ${highlightX + highlightWidth - r} ${highlightY + highlightHeight}
+                    H ${highlightX + r}
+                    A ${r} ${r} 0 0 1 ${highlightX} ${highlightY + highlightHeight - r}
+                    V ${highlightY + r}
+                    A ${r} ${r} 0 0 1 ${highlightX + r} ${highlightY}
+                    Z
+                `,
+                fill: "none",
+                stroke: "#ffffff",
+                "stroke-opacity": "0.3",
+                "stroke-width": "2"
             }
         );
 
+    } else {
+
+        foilHighlight = svgElement(
+            "rect",
+            {
+                x: highlightX,
+                y: highlightY,
+                width: highlightWidth,
+                height: highlightHeight,
+                rx: 14,
+                fill: "none",
+                stroke: "#ffffff",
+                "stroke-opacity": "0.3",
+                "stroke-width": "2"
+            }
+        );
+    }
 
     blisterSheet.appendChild(
         foilHighlight
@@ -964,12 +1010,6 @@ function renderRealisticBlister(data) {
  // ----------------------------------------------
 // CREATE EVERY POCKET
 // ----------------------------------------------
-
-const tabletShape =
-    data.tablet_shape ||
-    document.getElementById("tabletShape").value ||
-    "round";
-
 
 data.pockets.forEach(
     (pocket, index) => {
@@ -1020,23 +1060,29 @@ data.pockets.forEach(
 
 
         if (
-            tabletShape === "oval"
+            tabletShape === "rod"
         ) {
 
-            // Antibiotic / large oval tablet
 
-            pocketRX =
-                pocketWidth / 2;
+if (
+    tabletShape === "rod"
+) {
 
-            pocketRY =
-                pocketHeight / 2;
+    // Rod / capsule-shaped tablet
 
+    pocketRX =
+        pocketWidth * 0.50;
 
-            tabletRX =
-                pocketWidth * 0.29;
+    pocketRY =
+        pocketHeight * 0.46;
 
-            tabletRY =
-                pocketHeight * 0.16;
+    tabletRX =
+        pocketWidth * 0.38;
+
+    tabletRY =
+        pocketHeight * 0.24;
+
+}
 
         }
         else {
@@ -1068,7 +1114,6 @@ data.pockets.forEach(
                 tabletSize;
 
         }
-
 
         // ------------------------------------------
         // POCKET SHADOW
@@ -1113,28 +1158,52 @@ data.pockets.forEach(
         // RAISED POCKET
         // ------------------------------------------
 
-        const pocketElement =
-            svgElement(
-                "ellipse",
-                {
+const pocketElement =
+    tabletShape === "rod"
+        ? svgElement(
+            "rect",
+            {
+                class:
+                    "pocket",
 
-                    class:
-                        "pocket",
+                x:
+                    cx - pocketRX,
 
-                    cx:
-                        cx,
+                y:
+                    cy - pocketRY,
 
-                    cy:
-                        cy,
+                width:
+                    pocketRX * 2,
 
-                    rx:
-                        pocketRX,
+                height:
+                    pocketRY * 2,
 
-                    ry:
-                        pocketRY
+                rx:
+                    pocketRY,
 
-                }
-            );
+                ry:
+                    pocketRY
+            }
+        )
+        : svgElement(
+            "ellipse",
+            {
+                class:
+                    "pocket",
+
+                cx:
+                    cx,
+
+                cy:
+                    cy,
+
+                rx:
+                    pocketRX,
+
+                ry:
+                    pocketRY
+            }
+        );
 
 
         pocketElement.dataset.index =
@@ -1154,28 +1223,52 @@ data.pockets.forEach(
         // TABLET
         // ------------------------------------------
 
-        const tablet =
-            svgElement(
-                "ellipse",
-                {
+const tablet =
+    tabletShape === "rod"
+        ? svgElement(
+            "rect",
+            {
+                class:
+                    "tablet",
 
-                    class:
-                        "tablet",
+                x:
+                    cx - tabletRX,
 
-                    cx:
-                        cx,
+                y:
+                    cy - tabletRY,
 
-                    cy:
-                        cy,
+                width:
+                    tabletRX * 2,
 
-                    rx:
-                        tabletRX,
+                height:
+                    tabletRY * 2,
 
-                    ry:
-                        tabletRY
+                rx:
+                    tabletRY,
 
-                }
-            );
+                ry:
+                    tabletRY
+            }
+        )
+        : svgElement(
+            "ellipse",
+            {
+                class:
+                    "tablet",
+
+                cx:
+                    cx,
+
+                cy:
+                    cy,
+
+                rx:
+                    tabletRX,
+
+                ry:
+                    tabletRY
+            }
+        );
 
 
         tablet.dataset.index =
@@ -1356,7 +1449,7 @@ data.pockets.forEach(
         else {
 
             /*
-             * OVAL / ANTIBIOTIC TABLET
+             * OVAL / ROD TABLET
              *
              * Expiry is printed directly
              * across the tablet.
@@ -1394,7 +1487,7 @@ data.pockets.forEach(
 
 
             expiry.dataset.shape =
-                "oval";
+                tabletShape;
 
 
             expiry.textContent =
