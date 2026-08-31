@@ -1997,3 +1997,31 @@ footer span {
 .reset-button:active {
     transform: translateY(1px);
 }
+/* =========================================
+   FORCE ROD SHAPE - OUTER BLISTER
+   ========================================= */
+
+.single-blister.rod {
+    width: 100% !important;
+    height: 145px !important;
+
+    border-radius: 9999px !important;
+
+    overflow: hidden !important;
+}
+
+/* Rod blister foil */
+.single-blister.rod .single-foil {
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+}
+
+/* Rod pocket */
+.single-blister.rod .single-pocket {
+    border-radius: 9999px !important;
+}
+
+/* Rod tablet */
+.single-blister.rod .single-tablet {
+    border-radius: 9999px !important;
+}
