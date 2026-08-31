@@ -1,5 +1,4 @@
-const API = "http://127.0.0.1:8000";
-
+const API = "https://smartmedicineprinter.onrender.com";
 let blisterData = null;
 let animationRunning = false;
 let printed = false;
